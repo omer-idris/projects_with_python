@@ -1,0 +1,388 @@
+import random
+import time
+import os
+import string
+
+
+def clear():
+  os.system('cls' if os.name == 'nt' else 'clear')
+
+
+# These are some projects I've made throughout my learning journey with python.
+  # project 1. Paper, Rock, Scissor
+  # project 2. 
+  # project 3.
+  # project 4. 
+  # project 5. 
+  # project 6. Password Generator
+  # project 7. Hang Man Game
+  # project 8. Library Catalog
+  # project 9. Currency Converter
+  # project 10. Black-Jack Game
+
+
+
+print('Challenge 1. Paper, Rock, Scissor')
+game_symbols = """
+      _______
+  ---'   ____)
+        (_____)
+        (_____)
+        (____)
+  ---.__(___)
+              ______
+          ---'   ___)_____
+                    ______)
+                __________)
+                (___)
+          ---.__(__)
+       _______
+  ---'    ____)____
+             ______)
+            _______)
+           _______)
+  ---.__________)
+  """
+
+while True:
+  clear()
+  print(game_symbols)
+  options = ['Paper', 'Rock', 'Scissor']
+  print('Welcome to scissor rock paper game....')
+  if input('Type "yes" to see the rules or press enter to skip: ').lower() == 'yes':
+    print("""    ******* Rules *******
+                 You choose and the computer choose and then...we check
+                 1. Paper covers the rock.
+                 2. Rock smashes the scissor.
+                 3. Scissor cuts the paper. """)
+  user_choice = input('Enter you choice (Paper, Rock, Scissor): ').capitalize()
+  computer_choice = random.choice(options)
+
+  if user_choice in options:
+    if computer_choice == user_choice:
+      print(f'Neutral! The computer also chose {computer_choice}')
+    elif (computer_choice == 'Rock' and user_choice == 'Paper' or
+      computer_choice == 'Scissor' and user_choice == 'Rock' or
+      computer_choice == 'Paper' and user_choice == 'Scissor'  ):
+       print(f'You Win! {user_choice} beats {computer_choice}.')
+    else:
+      print(f'You loose! {computer_choice} beats {user_choice}')
+  else:
+    print('Invalid input. Try again')
+  if input('Press any key to continue or type "break" to exit... ').lower() == 'break':
+     break
+
+
+print('challenge 11. The Caesar Cipher\nWelcome to the Caesar Cipher.....\n')
+alphabet = string.ascii_lowercase
+
+def caesar_cipher(to_encrypt, shift_key):
+  message = ''
+  
+  for i in to_encrypt:
+    if i.lower() in alphabet:
+      postion_letter = alphabet.index(i.lower())
+      new_postion = (postion_letter + shift_key) % 26
+      
+      if i.isupper():
+        message += alphabet[new_postion].upper()
+      else:
+        message += alphabet[new_postion]
+    else:
+      message += i
+  return message
+
+to_encrypt = input('Enter a word for encryption: ')
+shift_key = int(input('Enter the shift key: '))
+
+# التشفير
+print(caesar_cipher(to_encrypt, shift_key))
+
+to_decrypt = input('Enter a word for decryption: ')
+shift_key = int(input('Enter the shift key: '))
+
+#    فك التشفير بنفس الدالة ، ضرب المفتاح في سالب واحد لعكس الاتجاه 
+print(caesar_cipher(to_decrypt, shift_key * -1))
+
+input('Press enter to proceed...')
+
+
+print('Challenge #6 Password Generator')
+while True:
+  clear()
+  print('Welcome to the Password Generator!\n')
+  length = int(input('Enter the length of characters in the password you want: '))
+  letters_length = int(input('Enter the number of letters in the password: '))
+  numbers_length = int(input('Enter the number of numbers in the password: '))
+  symbols_length = int(input('Enter the number of symbols in the password: '))
+  if letters_length + numbers_length + symbols_length != length:
+    print('Invalid Error')
+  else:
+    password = []
+    for i in random.choices(string.ascii_letters, k=letters_length):
+      password.append(i)
+    for i in random.choices(string.digits, k=numbers_length):
+      password.append(i)
+    for i in random.choices(string.punctuation, k=symbols_length):
+      password.append(i)
+    random.shuffle(password)
+    print(f"\nGenerated password: {''.join(password)}")
+  if input('Press any key to continue or type "break" to exit... ').lower() == 'break':
+     break
+
+
+
+print('Project 7. Hangman project')
+HANGMANPICS = ['''
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========''']
+
+words = ['home', 'egg', 'house', 'love', 'country']
+word = random.choice(words)
+display = ["_" for i in range(len(word))]
+display2 = ['_'] * len(word)
+
+tries = 6
+twice = []
+clear()
+print(HANGMANPICS[0])
+print(f"\n{' '.join(display)}\n")
+while '_' in display and tries > 0:
+  enter_letter = input('Enter a letter: ')
+  for position in range(len(word)):
+    if word[position] == enter_letter:
+      display[position] = enter_letter
+  if enter_letter not in word:
+    if enter_letter not in twice:
+      twice += enter_letter
+      tries -= 1
+      print(HANGMANPICS[6-tries])
+    else:
+      print('Try again... you guessed this letter earlier.')
+  print(f'You have {tries} tries remained...')
+  print(f"\n{' '.join(display)}\n")
+if ''.join(display) == word:
+  print('\n******* You Win! ********\n')
+else:
+  print('\nYou loose\n')
+
+time.sleep(4)
+
+print('Project #8 Library Catalog....')
+time.sleep(4)
+library = {}
+
+def add():
+  while True:
+    clear()
+    print('Adding a book.... \n')
+    isbn = input("Enter the ISBN: ")
+    title = input('Enter the title: ')
+    author = input('Enter the author: ')
+    library[isbn] = {
+      'ISBN': isbn,
+      'Title': title,
+      'Author': author, }
+    library[isbn]['available'] = True
+    print(f'Book "{title}" by {author} add to library with ISBN {isbn}.')
+    if input('Add another? y/n ').lower() != 'y':
+      break
+
+def checkout():
+  while True:
+    clear()
+    print('Checking out a book.... \n')
+    isbn = input("Enter the ISBN to check out: ")
+    if isbn in library and library[isbn]['available'] == True:
+      print(f'Book {library[isbn]["Title"]} checked out successfully....')
+      library[isbn]['available'] = False
+    elif isbn in library and library[isbn]['available'] == False:
+      print('Sorry! this book has checked before you...')
+    else:
+      print('Book not found in the catalog.')
+    if input('Check out another? y/n ').lower() != 'y':
+      break
+
+def checkin():
+  while True:
+    clear()
+    print('Checking in a book.... \n')
+    isbn = input('Enter ISBN to check in: ')
+    if isbn in library and library[isbn]['available'] == True:
+      print("Sorry this book is already in.")
+    elif isbn in library and library[isbn]['available'] == False:
+      print(f'Thanks! book {library[isbn]["Title"]} has checked in successfuly')
+      library[isbn]['available'] = True
+    else:
+      print('Book not found in the catalog.')
+    if input('Check in another? y/n ').lower() != 'y':
+      break
+
+while True:
+  clear()
+  entered = input('''
+  Please enter from 1-5:
+  1- add a book
+  2- check out a book
+  3- check in a book
+  4- see catalog
+  5- Exit \n ''')
+  if entered == '1':
+    add()
+
+  elif entered == '2':
+    checkout()
+
+  elif entered == '3':
+    checkin()
+
+  elif entered == '4':
+    clear()
+    print('Library Catalog: \n')
+    for i in library:
+      print(f"ISBN: {i}  Title: {library[i]['Title']}  Author: {library[i]['Author']}  Available: {library[i]['available']}")
+    print('----------------------------------------------')
+    input('\npress enter to see the menu....')
+
+  elif entered == '5':
+    break
+
+
+
+print('Project #9 Currency Converter')
+bank_note = '''
+       ||====================================================================||
+       ||//$\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//$\\||
+       ||(100)==================| SHUPUL NATIONAL bnNK |================(100)||
+       ||\\$//        ~         '------========--------'                \\$//||
+       ||<< /        /$\              // ____ \\                         \ >>||
+       ||>>|  12    //L\\            // ///..) \\         L38036133B   12 |<<||
+       ||<<|        \\ //           || <||  >\  ||                        |>>||
+       ||>>|         \$/            ||  $$ --/  ||        One Hundred     |<<||
+    ||====================================================================||>||
+    ||//$\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//$\\||<||
+    ||(100)==================| SHUPUL NATIONAL BANK |================(100)||>||
+    ||\\$//        ~         '------========--------'                \\$//||\||
+    ||<< /        /$\              // ____ \\                         \ >>||)||
+    ||>>|  12    //L\\            // ///..) \\         L38036133B   12 |<<||/||
+    ||<<|        \\ //           || <||  >\  ||                        |>>||=||
+    ||>>|         \$/            ||  $$ --/  ||        One Hundred     |<<||
+    ||<<|      L38036133B        *\\  |\_/  //* series                 |>>||
+    ||>>|  12                     *\\/___\_//*   1989                  |<<||
+    ||<<\      Treasurer     ______/OMER IDRIS\________   Secretary 12 />>||
+    ||//$\                 ~|    STATE OF SUDAN   |~                  /$\\||
+    ||(100)===================  ONE HUNDRED POUNDS ==================(100)||
+    ||\\$//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\$//||
+    ||====================================================================|| \n '''
+
+currencies = {'USD': 1.0, 'EUR': 0.85, 'SDP': 598.35, 'SAR': 3.7,
+             'GBP': 0.74, 'SHP': 0.32, 'RUB': 80.1, 'EGP': 47.66}
+
+clear()
+print('Welcome to currency converter....')
+time.sleep(3)
+def currency_rates():
+  print(bank_note)
+  print('\n  ==== Our currencies and rates for today ===\n')
+  for cur in sorted(currencies):
+    print(f"    {cur}: {currencies[cur]}")
+  print('  ________________________________')
+
+while True:
+  currency_rates()
+  owned_currency = input('\nChoose a currency to convert from: ').upper()
+  if owned_currency not in currencies:
+    print('Oops! Currency not recognized to system. Try again.')
+    time.sleep(3)
+    continue
+  amount = float(input('Enter the amount: '))
+
+    # confirm the amount and currency
+  while True:
+    confirm = input(f'You entered {amount} {owned_currency} Confirm? y/n: ').lower()
+    if confirm == 'y':
+      break
+    else:
+      amount = float(input('Enter the amount: '))
+
+    # take wanted currency
+  clear()
+  currency_rates()
+  wanted_currency = input('\nChoose a currency to convert to: ').upper()
+  if wanted_currency in currencies:
+    clear()
+    print('Analyzing your request... Please wait.')
+    time.sleep(3)
+    print(f"Checking for {wanted_currency}'s best rates available..... Please wait.")
+    time.sleep(3)
+    print(f"Getting a discount price for {owned_currency}.... Please wait.")
+    time.sleep(3)
+    print(f'Preparing the deal from {owned_currency} to {wanted_currency}....')
+    time.sleep(3)
+      
+      # سعر التغيير يساوي سعر المحول اليه على سعر المحول منه (كليهما اما الدولار) ثم يُضرب في كمية المبلغ المراد تحويله
+    print(f"\nExchange Rate:  1 {owned_currency} = {(currencies[wanted_currency]) / currencies[owned_currency]} {wanted_currency}")
+    print(f"\n{amount:.2f} {owned_currency} equals {(amount/currencies[owned_currency]) * currencies[wanted_currency]: .2f} {wanted_currency}")
+      
+      # accept the deal
+    print('\nSuccessful exchange... \n') if input('Do you accept this transaction? y/n: ').lower() == 'y' else print('Transaction Canceled.')
+  else:
+    print('Oops! Currency not recognized to system.')
+    
+     # another deal or exit
+  if input('Do you want to perform another conversion? y/n: ').lower() != 'y':
+    print('thank you for using Money Exchanger.')
+    time.sleep(3)
+    break
+
+
+
+print('Project #10 Black Jack Game ')
+
