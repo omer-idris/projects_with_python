@@ -1,5 +1,5 @@
 import random, time, os, string
-from shapes import bank_note, HANGMANPICS, game_symbols
+from shapes import bank_note, HANGMANPICS, game_symbols, black_jack_logo
 
 def clear():
   os.system('cls' if os.name == 'nt' else 'clear')
@@ -327,6 +327,73 @@ while True:
 # 10 ----------------------- ()
 print('Black Jack Game ')
 
+def random_cardfunc1(number):
+    for i in range(number):
+        random_card1 = random.choice(mother_cards)
+        if random_card1 == 'As':
+            if sum(user_cards) <= 10:
+                random_card1 = 11
+            else:
+                random_card1 = 1
+        user_cards.append(random_card1)
 
+def random_cardfunc2(number):
+    for i in range(number):
+        random_card2 = random.choice(mother_cards)
+        if random_card2 == 'As':
+            if sum(computer_cards) <= 10:
+                random_card2 = 11
+            else:
+                random_card2 = 1
+        computer_cards.append(random_card2)
 
+while True:
+    card = True
+    on_game = True
+    mother_cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 'As']
+    computer_cards = []
+    user_cards = []
+    while on_game:
+        print('\nStarting the game...')
+        time.sleep(2)
+        print(black_jack_logo)
+        random_cardfunc1(2)
+        print(f'Your cards are {user_cards}, current score is {sum(user_cards)}')
+        random_cardfunc2(2)
+        print(f"Computer's first card is {computer_cards[0]}")
 
+        while card == True and sum(user_cards) < 21:
+                if input('Do you another card? yes or no ').lower() == 'yes':
+                    random_cardfunc1(1)
+                    print(f'Your cards are {user_cards}, current score is {sum(user_cards)}')
+
+                else:
+                    card = False
+
+        if sum(user_cards) > 21:
+            print(f'You loose! BUST!! score {sum(user_cards)}')
+            on_game = False
+        if sum(user_cards) == 21:
+            print(f'You Win! Congra🌹🌹 score {sum(user_cards)}')
+            on_game = False  
+
+        while sum(computer_cards) < 17:
+                random_cardfunc2(1)
+
+        if sum(computer_cards) > 21:
+            print(f"Computer looses! BUST!! score {sum(computer_cards)}")
+            on_game = False
+
+        if sum(computer_cards) == sum(user_cards):
+            print(f'compter score {sum(computer_cards)} and yours {sum(user_cards)}')
+            print('Draw 😐😐')
+            on_game = False
+
+        if sum(computer_cards) < sum(user_cards):
+            print(f"You win, yours {sum(user_cards)} and computer's {sum(computer_cards)}")
+            on_game = False
+        if sum(computer_cards) > sum(user_cards):
+            print(f"You loose, yours {sum(user_cards)} and computer's {sum(computer_cards)}")
+            on_game = False
+    if input('Do you want to play again? y/n ').lower() != 'y':
+        break
